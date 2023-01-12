@@ -9,8 +9,8 @@ function writePassword() {
     var pwBuild = "";
 
 // user chooses the amount of characters they want in the password
-    var passwordLength = prompt("How many character do you wish you password to be? (Choose 8-128)");
-
+        var passwordLength = prompt("How many character do you wish you password to be? (Choose 8-128)");
+   
     //If the user chooses "Y" it puts 1 upper case letter in the password and let uppercase letters be called on randomly for other characters.
     var uppercaseConfirm = prompt("Do you need uppercase characters in your password? (Choose 'Y' or 'N')").toUpperCase();
     if(uppercaseConfirm === "Y"){
@@ -39,16 +39,56 @@ function writePassword() {
         characterSet = characterSet.concat(specialCharacters);
         pwBuild = pwBuild + specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
     }
-    console.log(pwBuild);
     console.log(characterSet);
     console.log(characterSet.length);
     
+    if(passwordLength < 128 && passwordLength > 8){
+        var validLength = true;
+    }    else{
+        var validLength = false;
+    }
+
+    if(uppercaseConfirm === "Y"){
+        var uppercaseShow = "✅";
+    }else{
+        var uppercaseShow = "❌";
+    }
+
+    if(lowercaseConfirm === "Y"){
+        var lowercaseShow = "✅";
+    }else{
+        var lowercaseShow = "❌";
+    }
+    
+    if(numericsConfirm === "Y"){
+        var numericsShow = "✅";
+    }else{
+        var numericsShow = "❌";
+    } 
+    
+    if(specialConfirm === "Y"){
+        var specialShow = "✅";
+    }else{
+        var specialShow = "❌";
+    }
+    //This generates a confirmation alert and if criteria was invalid prompts user to generate a new password
+    if ( uppercaseConfirm !== "Y" && lowercaseConfirm !== "Y" && numericsConfirm !== "Y" && specialConfirm !== "Y"){
+        alert("No valid criteria were selected, please generate a new password.");
+        return;
+    }else if(validLength == false){
+        alert("Password length invalid, please generate a new password.");
+        return;
+    }else{
+    alert("These are the chosen criteria for your password: \nPassword Length: " + passwordLength + "\nUppercase Characters: " + uppercaseShow + "\nLowercase Characters: " + lowercaseShow + "\nNumerical Characters: " + numericsShow + "\nSpecial Characters: " + specialShow);
+    };
     
     function generatePassword(){
+        //password generation has cannot start at 0 or it will be too long
      for(let i = pwBuild.length; i < passwordLength; i++){
        pwBuild = pwBuild + characterSet[Math.floor(Math.random() * characterSet.length)];
        console.log(pwBuild);
     }
+    return pwBuild;
      }
      
     var password = generatePassword();
