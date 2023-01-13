@@ -71,7 +71,7 @@ function writePassword() {
     }else{
         var specialShow = "❌";
     }
-    //This generates a confirmation alert and if criteria was invalid prompts user to generate a new password
+    //This generates a confirmation alert OR if criteria was invalid prompts user to generate a new password
     if ( uppercaseConfirm !== "Y" && lowercaseConfirm !== "Y" && numericsConfirm !== "Y" && specialConfirm !== "Y"){
         alert("No valid criteria were selected, please generate a new password.");
         return;
@@ -83,12 +83,29 @@ function writePassword() {
     };
     
     function generatePassword(){
-        //password generation has cannot start at 0 or it will be too long
+        //password generation  cannot start at 0 or it will be too long
      for(let i = pwBuild.length; i < passwordLength; i++){
        pwBuild = pwBuild + characterSet[Math.floor(Math.random() * characterSet.length)];
        console.log(pwBuild);
     }
-    return pwBuild;
+        //this password is close to random, but the first X characters of the string need to be shuffled into truly random choices. Well split the current PW into an array and the create a new string by randomly selecting values from the array and then excluding the chosen values from future character indexes.
+    var shufflePW = pwBuild.split("");
+    var finalPW = "";
+    console.log(shufflePW);
+        //we start by taking a value from the full length of the new array, then we cut out the value we just used and reform the array without it, making it ever smaller
+    for (let i = shufflePW.length; i > 0; i--){
+        //using i to create a random J based of the current length of the shuffle array
+        var j = Math.floor(Math.random() * i);
+        var finalPW = finalPW + shufflePW[j];
+
+        //creating 2 arrays slicing it before and after the index that was just used then rejoining them to form the now shorter array to repeat the process with
+        var firstShufflePW = shufflePW.slice(0, j);
+        var secondShufflePW = shufflePW.slice(j + 1);
+        var shufflePW = firstShufflePW.concat(secondShufflePW);
+    }
+    console.log(finalPW);
+    return finalPW;
+
      }
      
     var password = generatePassword();
