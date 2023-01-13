@@ -42,7 +42,7 @@ function writePassword() {
     console.log(characterSet);
     console.log(characterSet.length);
     
-    if(passwordLength < 128 && passwordLength > 8){
+    if(passwordLength <= 128 && passwordLength >= 8){
         var validLength = true;
     }    else{
         var validLength = false;
